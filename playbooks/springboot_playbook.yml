@@ -8,11 +8,13 @@
     - encryption_key_vars: "84277c6897f245dcc188485fd94e96e6"
   tasks:
     - name: Quick Hack for loading sdkman
-      shell: 'source "/home/awx/.sdkman/bin/sdkman-init.sh"'
+      shell: 
       when: load_sdkman_enabled | default(false)
       
     - name: Calling spring boot cloud cli for encryption
-      shell: spring encrypt {{ password_vars }} -key {{ encryption_key_vars }}
+      shell: |
+          source "/home/awx/.sdkman/bin/sdkman-init.sh"
+          spring encrypt {{ password_vars }} -key {{ encryption_key_vars }}
       register: reg_encryption_value
 
     - debug: var=reg_encryption_value
