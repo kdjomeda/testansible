@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  connection: local
+  become: true
+  gather_facts: true
+  vars:
+    - password_vars: "12345"
+    - encryption_key_vars: "84277c6897f245dcc188485fd94e96e6"
+  tasks:
+    - name: Calling spring boot cloud cli for encryption
+      shell: spring encrypt {{ password_vars }} -key {{ encryption_key_vars }}
+      register: reg_encryption_value
+
+    - debug: var=reg_encryption_value
