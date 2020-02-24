@@ -3,6 +3,8 @@
   connection: local
   become: true
   gather_facts: true
+  environment:
+    JAVA_HOME: "{{ java_home_path }}"
   vars:
     - password_vars: "12345"
     - encryption_key_vars: "84277c6897f245dcc188485fd94e96e6"
