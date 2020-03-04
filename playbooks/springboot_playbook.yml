@@ -5,13 +5,20 @@
   gather_facts: true
   environment:
     JAVA_HOME: "{{ java_home_path }}"
-  vars:
-    - password_vars: "12345"
-    - encryption_key_vars: "84277c6897f245dcc188485fd94e96e6"
+    AWS_ACCESS_KEY_ID: "{{ aws_access_key }}"
+    AWS_SECRET_ACCESS_KEY: "{{ aws_access_secret }}"
+  var_files:
+    - "../playbook_vars/vault/test.vault"
   tasks:
     - name: Calling spring boot cloud cli for encryption
       shell: |
-          {{ spring_cloud_cli_path | default("") }}spring encrypt {{ password_vars }} -key {{ encryption_key_vars }}
+          {{ spring_cloud_cli_path | default("") }}spring encrypt {{ user_password }} -key {{ encryption_key }}
       register: reg_encryption_value
 
     - debug: var=reg_encryption_value
+ 
+   - name: Obtaining aws secret
+     shell: "aws secretsmanager describe-secret --secret-id --region eu-west-1"
+     register: reg_secrets
+
+   - debug: var=reg_secrets
