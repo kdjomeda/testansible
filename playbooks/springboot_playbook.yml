@@ -17,8 +17,8 @@
 
     - debug: var=reg_encryption_value
  
-   - name: Obtaining aws secret
-     shell: "aws secretsmanager describe-secret --secret-id --region eu-west-1"
-     register: reg_secrets
+    - name: Obtaining aws secret
+      shell: "aws secretsmanager describe-secret --secret-id --region eu-west-1"
+      register: reg_secrets
 
-   - debug: var=reg_secrets
+    - debug: var=reg_secrets
